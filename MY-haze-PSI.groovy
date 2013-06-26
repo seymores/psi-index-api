@@ -1,11 +1,13 @@
 import org.jsoup.*
 
-String URL = "http://weather.nea.gov.sg/MapControl.aspx?ds=PSIMaps"
+String URL = "http://apims.doe.gov.my/apims/index.php"
 
 def doc = Jsoup.connect(URL).get();
-//println doc
+def result = doc.select("table.table1").text().split("     ").collect{ it.trim() };
 
-def result = doc.select("span.lblwarningmessage").text().split("     ").collect{ it.trim() };
+println " >>> " + result
+
+/*
 String lastUpdated = result[2]?.replaceAll(",","")
 
 String overall24hr = result[0].trim()?.replaceAll(",","")
@@ -16,7 +18,7 @@ String current3hrVal = current3hr?.split(": ")[1]
 
 println "Update=${lastUpdated}, size=${result.size()}, result=${result} >>> 24-hr=${overall24hr}, 24=${overall24hrVal}, ${current3hr}, 3-hr=${current3hrVal}"
 
-/*
+
 Elements links = doc.select("a[href]"); // a with href
 Elements pngs = doc.select("img[src$=.png]");
   // img with src ending .png
