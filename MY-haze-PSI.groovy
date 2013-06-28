@@ -1,11 +1,17 @@
 import org.jsoup.*
 
-String URL = "http://apims.doe.gov.my/apims/index.php"
+String URL = "http://apims.doe.gov.my/apims/hourly2.php"
 
 def doc = Jsoup.connect(URL).get();
-def result = doc.select("table.table1").text().split("     ").collect{ it.trim() };
+def result = doc.select("table.table1 tr");
 
-println " >>> " + result
+
+result.each { tr ->
+    def row = tr.select("td")
+    println " ---- row---\n" + row[0].text() + " " + row[1].text()
+
+}
+println "---"
 
 /*
 String lastUpdated = result[2]?.replaceAll(",","")
